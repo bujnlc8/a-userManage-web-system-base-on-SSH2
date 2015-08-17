@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+   "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<include file="struts-default.xml" />
+	<constant name="struts.devMode" value="false" />
+	<!-- 设置在class被修改时是否热加载，发布时要设置为false -->
+    <constant name="struts.convention.classes.reload" value="true"/>
+	<constant name="struts.action.extension" value="do" />
+	<constant name="struts.allowed.action.names" value="[a-zA-Z0-9]*" />
+	<constant name="struts.tag.altSyntax" value="true" />
+	<constant name="struts.configuration.xml.reload" value="false" />
+	<constant name="struts.configuration.files"
+		value="struts-default.xml,struts.xml" />
+	<constant name="struts.enable.DynamicMethodInvocation"
+		value="false" />
+	<constant name="struts.dispatcher.parametersWorkaround"
+		value="false" />
+	<constant name="struts.mapper.class"
+		value="org.apache.struts2.dispatcher.mapper.DefaultActionMapper" />
+
+	<!-- 静态内容服务 -->
+	<constant name="struts.serve.static" value="true" />
+	<constant name="struts.serve.static.browserCache" value="true" />
+
+	<!-- 设置I18N -->
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.i18n.reload" value="false" />
+
+	<!-- Spring集成 -->
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.objectFactory.spring.autoWire" value="name" />
+	<constant name="struts.objectFactory.spring.useClassCache"
+		value="true" />
+
+	<!-- XSLT Result -->
+	<constant name="struts.xslt.nocache" value="false" />
+
+	<!-- 本应用全局包-->
+	<package name="default" extends="struts-default" abstract="true">
+		<global-results>
+			<result name="exception">/jsp/extra/exception.jsp</result>
+			<result name="error">/jsp/extra/error.jsp</result>
+			<result name="noPrevileges">/jsp/extra/noPrevileges.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="exception" />
+		</global-exception-mappings>
+	</package>
+	<include file="com/haihuiling/config/userAdmin-config.xml" />
+	<include file="com/haihuiling/config/userInfo-config.xml"/>
+	<include file="com/haihuiling/config/UserRoleRelationship-config.xml"/>
+	<include file="com/haihuiling/config/Roleinfo-config.xml"/>
+	
+</struts>

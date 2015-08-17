@@ -1,0 +1,99 @@
+1、引入validform.css
+	<link href="${ctx}res/js/validform/validform.css" rel="stylesheet" type="text/css" />
+
+2、引入js （jquery 1.4.3 以上版本都可以）
+	<script type="text/javascript" src="res/js/jquery-1.4.4.js"></script>
+ 	<script src="${ctx}res/js/validform/validform_v5.3.2.js" type="text/javascript"></script>
+ 	
+3、给需要验证的表单元素绑定附加属性
+<form class="demoform">
+	<input type="text" value="" name="name" datatype="s5-16" errormsg="昵称至少5个字符,最多16个字符！" />
+</form>
+
+4、初始化
+$(".demoform").Validform();
+==================================
+*注：
+绑定附加属性：
+凡要验证格式的元素均需绑定datatype属性，datatype可选值内置有10类，用来指定不同的验证格式。
+如果还不能满足您的验证需求，可以传入自定义datatype，自定义datatype是一个非常强大的功能，通过它可以满足你的任何需求。
+可以绑定的附加属性有：datatype、nullmsg、sucmsg、errormsg、ignore、recheck、tip、altercss、ajaxurl 和 plugin
+绑定方法如下所示：
+	<!--ajax实时验证用户名-->
+	<input type="text" value="" name="name" datatype="e" ajaxurl="valid.php?myparam1=value1&myparam2=value2" sucmsg="用户名验证通过！" nullmsg="请输入用户名！" errormsg="请用邮箱或手机号码注册！"  />
+ 
+	<!--密码-->
+	<input type="password" value="" name="userpassword" datatype="*6-15" errormsg="密码范围在6~15位之间！" />
+	<!--确认密码-->
+	<input type="password" value="" name="userpassword2" datatype="*" recheck="userpassword" errormsg="您两次输入的账号密码不一致！" />
+ 
+	<!--默认提示文字-->
+	<textarea tip="请在这里输入您的意见。" errormsg="很感谢您花费宝贵时间给我们提供反馈，请填写有效内容！"  datatype="s" altercss="gray" class="gray" name="msg" value="">请在这里输入您的意见。</textarea>
+ 
+	<!--使用passwordStrength插件-->
+	<input type="password" errormsg="密码至少6个字符,最多18个字符！" datatype="*6-18" plugin="passwordStrength" class="inputxt" name="password" value="">
+	<div class="passwordStrength" style="display:none;"><b>密码强度：</b> <span>弱</span><span>中</span><span class="last">强</span></div>
+ 
+ 内置基本的datatype类型有： * | *6-16 | n | n6-16 | s | s6-18 | p | m | e | url
+	*：检测是否有输入，可以输入任何字符，不留空即可通过验证；
+	*6-16：检测是否为6到16位任意字符；
+	n：数字类型；
+	n6-16：6到16位数字；
+	s：字符串类型；
+	s6-18：6到18位字符串；
+	p：验证是否为邮政编码；
+	m：手机号码格式；
+	e：email格式；
+	url：验证字符串是否为网址。
+自定义datatype的名称，可以由字母、数字、下划线、中划线和*号组成。
+形如"*6-16"的datatype，Validform会自动扩展，可以指定任意的数值范围。
+如内置基本类型有"*6-16"，那么你绑定datatype="*4-12"就表示4到12位任意字符。
+如果你自定义了一个datatype="zh2-4"，表示2到4位中文字符，那么datatype="zh2-6"就表示2到6位中文字符。
+
+nullmsg
+当表单元素值为空时的提示信息，不绑定，默认提示"请填入信息！"。
+如：nullmsg="请填写用户名！"
+
+sucmsg
+当表单元素通过验证时的提示信息，不绑定，默认提示"通过信息验证！"。
+如：sucmsg="用户名还未被使用，可以注册！"
+
+errormsg
+输入内容不能通过验证时的提示信息，默认提示"请输入正确信息！"。
+如：errormsg="用户名必须是2到4位中文字符！"
+
+ignore
+绑定了ignore="ignore"的表单元素，在有输入时，会验证所填数据是否符合datatype所指定数据类型，
+没有填写内容时则会忽略对它的验证；
+
+recheck
+表单里面经常需要检查两次密码输入是否一致，recheck就是用来指定需要比较的另外一个表单元素。
+如：recheck="password1"，那么它就会拿当前元素的值跟该表单下，name为"password1"的元素比较。
+
+tip
+表单里经常有些文本框需要默认就显示一个灰色的提示文字，当获得焦点时提示文字消失，失去焦点时提示文字显示。tip属性就是用来实现这个效果。它通常和altercss搭配使用。
+如<input type="text" value="默认提示文字" class="gray intxt" tip="默认提示文字" altercss="gray" />
+altercss
+它需要和tip属性配合使用，altercss指定的样式名，会在文本框获得焦点时被删除，没有输入内容而失去焦点时重新加上。
+
+ajaxurl
+指定ajax实时验证的后台文件的地址。
+后台页面如valid.php文件中可以用 $_POST["param"] 接收到值，Ajax中会POST过来变量param和name。
+param是文本框的值，name是文本框的name属性。
+
+plugin
+指定需要使用的插件。
+不需要传入这些空对象了，只需在表单元素上绑定plugin="datepicker"||plugin="passwordStrength"就可以，初始化直接这样：
+$(".demoform").Validform();
+
+初始化参数见源码。
+$(function(){
+			var URLs= "url.action";
+			var dome = $(".demoform").Validform({
+				btnSubmit:"#btn_sub",
+				tiptype:3
+			});
+			dome.config({
+			    url:URLs
+			});
+		});

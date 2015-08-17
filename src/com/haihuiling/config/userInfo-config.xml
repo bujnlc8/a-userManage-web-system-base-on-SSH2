@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+   "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="userInfo" extends="default" namespace="/user">
+		<action name="userInfoList" class="com.haihuiling.action.UserInfoAction"
+			method="getUserInfoList">
+			<result>/jsp/userInfoList.jsp</result>
+		</action>
+		<action name="deleteUserInfo" class="com.haihuiling.action.UserInfoAction"
+			method="deleteUserInfo">
+			<result type="redirectAction">userInfoList</result>
+		</action>
+		<action name="goAddUserInfo" class="com.haihuiling.action.UserInfoAction"
+			method="goAddUserInfo">
+			<result>/jsp/userInfoAdd.jsp</result>
+		</action>
+		<action name="userInfoAdd" class="com.haihuiling.action.UserInfoAction"
+			method="userInfoAdd">
+			<result type="redirectAction">userInfoList</result>
+		</action>
+		<action name="goUserInfoEdit" class="com.haihuiling.action.UserInfoAction"
+			method="goUserInfoEdit">
+			<result>/jsp/userInfoEdit.jsp</result>
+		</action>
+		<action name="userInfoEdit" class="com.haihuiling.action.UserInfoAction"
+			method="userInfoEdit">
+			<result type="redirectAction">userInfoList</result>
+		</action>
+		<action name="userInfoDetail" class="com.haihuiling.action.UserInfoAction"
+			method="userInfoDetail">
+			<result>/jsp/userInfoDetail.jsp</result>
+		</action>
+		<action name="goUserRoleEdit" class="com.haihuiling.action.UserInfoAction"
+			method="goUserRoleEdit">
+			<result>/jsp/userRoleEdit.jsp</result>
+		</action>
+		<action name="doSubmitRoles" class="com.haihuiling.action.UserRoleReAction"
+			method="doSubmitRoles">
+				<result type="redirectAction">userInfoList</result>
+		</action>
+	</package>
+</struts>

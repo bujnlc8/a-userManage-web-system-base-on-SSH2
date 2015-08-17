@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
+	default-lazy-init="false" default-autowire="byName">
+	<bean id="dataSourceBean" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/orcl"/>
+		<property name="lookupOnStartup" value="true"/>
+		<property name="cache" value="true"/>
+		<property name="proxyInterface" value="javax.sql.DataSource" />
+	</bean>
+	<!-- sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSourceBean" />
+		</property>
+		<property name="configLocation">
+			<value>/WEB-INF/classes/hibernate.cfg.xml</value>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+			<prop key="hibernate.dialect">
+					com.haihuiling.common.Oracle11gDialect
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="hibernate.use_outer_join">false</prop>
+				<prop key="hibernate.default_batch_fetch_size">10</prop>
+				<prop key="hibernate.jdbc.fetch_size">100</prop>
+				<prop key="hibernate.jdbc.batch_size">30</prop>
+				<prop key="hibernate.jdbc.batch_versioned_data">true</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.cache.provider_class">
+					org.hibernate.cache.NoCacheProvider
+				</prop>
+				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+				<prop key="hibernate.autoReconnect">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="txProxyTemplate" abstract="true"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="proxyTargetClass">
+			<value>true</value>
+		</property>
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="userInfoService"
+		class="com.haihuiling.model.realize.UserInfoService">
+		<property name="userInfoDAO" ref="userInfoDAO"/>
+	</bean>
+	<bean id="userInfoDAO" parent="txProxyTemplate">
+		<property name="target">
+			<bean class="com.haihuiling.ado.realize.UserInfoDAOImpl">
+				<property name="sessionFactory">
+					<ref bean="sessionFactory"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="userRoleReService"
+		class="com.haihuiling.model.realize.UserRoleReServiceImpl">
+		<property name="userRoleReDAO" ref="userRoleReDAO"/>
+	</bean>
+	<bean id="userRoleReDAO" parent="txProxyTemplate">
+		<property name="target">
+			<bean class="com.haihuiling.ado.realize.UserRoleReDAOImpl">
+				<property name="sessionFactory">
+					<ref bean="sessionFactory"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="userAdminService"
+		class="com.haihuiling.model.realize.UserAdminServiceImpl">
+		<property name="userAdminDAO" ref="userAdminDAO"/>
+	</bean>
+
+	<bean id="userAdminDAO" parent="txProxyTemplate">
+		<property name="target">
+			<bean class="com.haihuiling.ado.realize.UserAdminDAOImpl">
+				<property name="sessionFactory">
+					<ref bean="sessionFactory"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean id="userRoleService"
+		class="com.haihuiling.model.realize.UserRoleServiceImpl">
+		<property name="userRoleDAO" ref="userRoleDAO"/>
+	</bean>
+	<bean id="userRoleDAO" parent="txProxyTemplate">
+		<property name="target">
+			<bean class="com.haihuiling.ado.realize.UserRoleDAOImpl">
+				<property name="sessionFactory">
+					<ref bean="sessionFactory"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>
