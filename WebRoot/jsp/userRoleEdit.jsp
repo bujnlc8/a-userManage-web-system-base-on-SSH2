@@ -18,11 +18,10 @@
 			list="userUnSelectedRolesList" doubleName="userSelectedRoles" name="userUnSelectedRoles"
 			addAllToLeftLabel="全部左移" addAllToRightLabel="全部右移"
 			doubleMultiple="true" selectAllLabel="全部选择" emptyOption="true"
-			doubleEmptyOption="true"  headerValue="未选择角色"
-		     doubleHeaderValue="已选择角色" />
+			doubleEmptyOption="true" headerKey="unselected" headerValue="可选角色" doubleHeaderKey="selected" doubleHeaderValue="已选角色"/>
 			<input type="hidden" name="qqId" readonly
 						value="<s:property value='userObject[0]'/>">
-		<s:submit value="提交" onclick="selectElement()">
+		<s:submit value="提交" onclick="selectElement()" class="btn btn-primary">
 		</s:submit>
 	</s:form>
 	</div>
@@ -34,10 +33,11 @@ function selectElement()
 {
 	    var right = document.forms[0].userSelectedRoles;  
 	    for(var i=1;i<right.length;i++) 
-	    	if(right[i].value=="无"){
+	    	if(right[i].value=="无"||right[i].value==""){
 	    		right[i].selected = false;
 	    	}else{
-	        right[i].selected = true; } 
+	        right[i].selected = true; 
+	        } 
 	} 
 </script>
 </html>

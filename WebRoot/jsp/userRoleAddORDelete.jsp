@@ -15,35 +15,37 @@
 </head>
 <body>
 	<div>
-		<form id="RoleinfoList" name="RoleinfoList" method="post">
+		<form id="RoleUserinfoList" name="RoleUserinfoList" method="post">
 			<table width="70%" align="center" class="table  table-hover">
 				<tr>
-					<th width="10%"><input type="checkbox" class="user_cb"
+					<th width="10%"><input type="checkbox"
 						id="checkAll" onclick="javascript:selectAll();" title="全部选中">
 					</th>
 					<th width="20%" align="center">角色名</th>
-					<th width="20%" align="center">角色描述</th>
-					<th width="20%" align="center">创建时间</th>
+					<th width="20%" align="center">人员</th>
+					<th width="20%" align="center">角色状态</th>
 					<th width="20%" align="center">操作</th>
 				</tr>
-				<s:iterator value="object" status="stat" id="id">
+				<s:iterator value="objects" status="stat" id="id">
 					<tr>
 						<td align="center"><input type="checkbox" name="qqIds"
-							value="<s:property value='object[#stat.index][0]'/>"
+							value="<s:property value='objects[#stat.index][0]'/>"
 						</td>
-						<td align="center"><s:property value="object[#stat.index][1]" />
-						</td>
-						<td align="center"><s:property value="object[#stat.index][2]" />
-						</td>
-						<td align="center" class="createTime"><s:property
-								value="object[#stat.index][3]" /></td>
-						<td align="center"><a
-							href="javascript:goRoleEdit('<s:property value="object[#stat.index][0]"/>')"><font
-								size="2">编辑</font>
-						</a>&nbsp;<a
-							href="javascript:goUserRoleAddORDelete('<s:property value="object[#stat.index][0]"/>')"><font
-								size="2">增添人员</font>
-						</a></td>
+						<td align="center"><s:property
+								value="objects[#stat.index][1]" /></td>
+						<td align="center"><s:property
+								value="objects[#stat.index][2]" /></td>
+						<td align="center" class="roleState"><s:property
+								value="objects[#stat.index][3]" /></td>
+						<td align="center">
+						<s:if test="objects[#stat.index][3]=='0'">
+						<a
+							href="javascript:openIt('<s:property value="objects[#stat.index][0]"/>')"><font
+								size="2">启用</font>
+						</a></s:if><s:elseif test="objects[#stat.index][3]=='1'"><a
+							href="javascript:forbidIt('<s:property value="objects[#stat.index][0]"/>')"><font
+								size="2">禁用</font>
+						</a></s:elseif></td>
 					</tr>
 				</s:iterator>
 			</table>
@@ -53,12 +55,32 @@
 					onclick="javascript:toDelete();" class="btn btn-primary"/><input type="button" id="add"
 					value="增加"
 					style="width:100px;height:30px;margin-top:15px;margin-left:300px"
-					onclick="toAdd()" class="btn btn-primary"/>
+					onclick="toAdd('<s:property value="qqId_"/>')" class="btn btn-primary"/>
 			</div>
-			<input type="hidden" name="qqId" />
+			<input type="hidden" name="qqId" value='<s:property value="qqId_"/>' />
 		</form>
 	</div>
-	<script>
+	<script type="text/javascript">
+		function openIt(id) {
+			$.ajax({
+				type : 'POST',
+				url : "user/openUserRole.do?qqId=" + id,
+				data : {},
+				success : function() {
+					window.location.reload();
+				}
+			});
+		}
+		function forbidIt(id) {
+			$.ajax({
+				type : 'POST',
+				url : "user/forbidUserRole.do?qqId=" + id,
+				data : {},
+				success : function() {
+					window.location.reload();
+				}
+			});
+		}
 		var flag = true;
 		function selectAll() {
 			if (flag) {
@@ -82,43 +104,23 @@
 				flag = true;
 			}
 		}
-		function goUserRoleAddORDelete(id) {
-			RoleinfoList.qqId.value = id;
-			RoleinfoList.action = "user/goUserRoleAddORDelete.do"
-			RoleinfoList.submit();
-		}
-		function toAdd() {
-			/*layer.open({
-				type : 3,
-				content : "jsp/roleAdd.jsp",
-				scrollbar : false,
-				area : [ '500px', '300px' ],
-				offset : [ '100px', '400px' ]
-			});*/
-			window.location="jsp/roleAdd.jsp";
-		}
-		function toDelete() {
+		function toDelete(){
 			if ($(":checked").length == 0) {
 				layer.alert("请至少选择一个删除项！");
 			} else {
 				if (confirm("确定删除所选吗？")) {
-
-					RoleinfoList.action = "role/deleteRole.do"
-					RoleinfoList.submit();
+					
+					var frm = document.RoleUserinfoList;
+					frm.action = "user/deleteUserRole.do";
+					frm.submit();
 				}
-			}
+			}		
 		}
-		window.onload = function() {
-			var createTime = $(".createtime");
-			for ( var i = 0; i < createTime.length; i++) {
-				createTime[i].innerHTML = createTime[i].innerHTML.substr(0, 7);
-			}
-			//alert(createTime[0].innerHTML.substr(0,7));
-		}
-		function goRoleEdit(id) {
-			RoleinfoList.qqId.value = id;
-			RoleinfoList.action = "role/goRoleEdit.do";
-			RoleinfoList.submit();
+		function toAdd(id){
+			var frm = document.RoleUserinfoList;
+			frm.qqId.value= id;
+			frm.action = "user/goAddUserRole.do";
+			frm.submit();		
 		}
 	</script>
 </body>

@@ -90,6 +90,7 @@ public class UserInfoAction extends ActionSupport {
 		try {
 			// StringBuffer birthdaySb = new StringBuffer();
 			// birthdaySb.append(qqBirthday.substring(0, 4));
+			System.out.print(qqBirthday);
 			java.sql.Date birthdaySql = java.sql.Date.valueOf(qqBirthday);
 			Userinfo userinfo = new Userinfo(null, qqName, qqAge, birthdaySql,
 					qqAddress, qqSex, qqJob);

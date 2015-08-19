@@ -53,7 +53,7 @@
 					</td>
 				</tr>
 			</table>
-			<input type="button" id="saveInfo" onclick="saveUserEdit();" value="保存" />
+			<input type="button" id="saveInfo" onclick="saveUserEdit();" value="保存" class="btn btn-primary" />
 			<input type="hidden" name="qqId" value="<s:property value='userObject.userid'/>"/>
 		</form>
 	</div>

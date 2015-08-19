@@ -10,5 +10,4 @@ public interface IUserRoleService {
 	public void updateRole(UserRole userRole);
 	public List<Object> getRoleList();
 	public Object getById(String pk);
-
 }

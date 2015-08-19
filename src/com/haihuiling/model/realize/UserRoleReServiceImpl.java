@@ -1,5 +1,9 @@
 package com.haihuiling.model.realize;
 
+import java.util.List;
+
+import org.apache.poi2.hssf.record.formula.functions.Index;
+
 import com.haihuiling.ado.impl.IUserRoleReDAO;
 import com.haihuiling.beans.UserRoleRelationship;
 import com.haihuiling.model.impl.IUserRoleReService;
@@ -20,18 +24,21 @@ public class UserRoleReServiceImpl implements IUserRoleReService {
 	}
 
 	/**
-	 * 为人员删除一个角色
+	 * 删除人员-角色关系
 	 */
-	public void deleteUserRoleRe(String pk) {
-		
-		userRoleReDAO.deleteUserRoleRe(pk);
+	public void deleteUserRoleRe(String[] pk) {
+		if(pk!=null&&pk.length!=0){
+			for(int index =0;index<pk.length;index++){
+				userRoleReDAO.deleteUserRoleRe(pk[index]);
+			}
+		}
 	}
 
 	/**
 	 * 为人员修改一个角色
 	 */
-	public void modifyUserRoleRe(UserRoleRelationship userRoleRelationship) {
-		userRoleReDAO.modifyUserRoleRe(userRoleRelationship);
+	public void modifyUserRoleRe(String pk,UserRoleRelationship userRoleRelationship) {
+		userRoleReDAO.modifyUserRoleRe(pk,userRoleRelationship);
 		
 	}
 
@@ -42,12 +49,39 @@ public class UserRoleReServiceImpl implements IUserRoleReService {
 		return userRoleReDAO.getById(pk);
 	}
 
-	@Override
+	/**
+	 * 处理提交上来的人员角色信息
+	 */
 	public void doSubmitRoles(String qqId, String[] userSelectedRoles) {
 		userRoleReDAO.doSubmitRoles(qqId, userSelectedRoles);
 		
 	}
-
+	/**
+	 * 通过角色id获得角色-人员列表
+	 */
+	public List<Object> getUserRoleInfoByRoleId(String roleId) {
+		return userRoleReDAO.getUserRoleInfoByRoleId(roleId);
+	}
+	/**
+	 * 开启人员角色状态
+	 */
+	public void openUserRole(String pk) {
+		userRoleReDAO.openUserRole(pk);
+		
+	}
+	/**
+	 * 禁用人员角色状态
+	 */
+	public void forbidUserRole(String pk) {
+		userRoleReDAO.forbidUserRole(pk);	
+	}
+	/**
+	 * 获取未被赋予id为roleid角色的人员列表
+	 */
+	public List<Object> getUserListHavaNoTheRole(String roleid) {
+		return userRoleReDAO.getUserListHavaNoTheRole(roleid);
+	}
+/*****************************************************setter and getter*****************************************************/
 	public IUserRoleReDAO getUserRoleReDAO() {
 		return userRoleReDAO;
 	}
@@ -55,5 +89,4 @@ public class UserRoleReServiceImpl implements IUserRoleReService {
 	public void setUserRoleReDAO(IUserRoleReDAO userRoleReDAO) {
 		this.userRoleReDAO = userRoleReDAO;
 	}
-
 }

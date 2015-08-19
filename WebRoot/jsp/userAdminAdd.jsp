@@ -60,7 +60,7 @@
 					</select></td>
 				</tr>
 			</table>
-			<input type="button" value="保存" onclick="toSave();">
+			<input type="button" value="保存" onclick="toSave();" class="btn btn-primary">
 		</form>
 	</div>
 	<script type="text/javascript">

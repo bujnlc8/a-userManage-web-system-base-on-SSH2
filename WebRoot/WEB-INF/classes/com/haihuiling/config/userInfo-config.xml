@@ -40,5 +40,27 @@
 			method="doSubmitRoles">
 				<result type="redirectAction">userInfoList</result>
 		</action>
+		<action name="goUserRoleAddORDelete" class="com.haihuiling.action.UserRoleReAction"
+			method="goUserRoleAddORDelete">
+				<result>/jsp/userRoleAddORDelete.jsp</result>
+		</action>
+		<action name="openUserRole" class="com.haihuiling.action.UserRoleReAction"
+			method="openUserRole">
+		</action>
+		<action name="forbidUserRole" class="com.haihuiling.action.UserRoleReAction"
+			method="forbidUserRole">
+		</action>
+		<action name="deleteUserRole" class="com.haihuiling.action.UserRoleReAction"
+			method="deleteUserRole">
+				<result type="chain">goUserRoleAddORDelete</result>
+		</action>
+		<action name="goAddUserRole" class="com.haihuiling.action.UserRoleReAction"
+			method="goAddUserRole">
+				<result>/jsp/userRoleAdd.jsp</result>
+		</action>
+		<action name="addUserRole" class="com.haihuiling.action.UserRoleReAction"
+			method="addUserRole">
+				<result type="chain">goUserRoleAddORDelete</result>
+		</action>
 	</package>
 </struts>

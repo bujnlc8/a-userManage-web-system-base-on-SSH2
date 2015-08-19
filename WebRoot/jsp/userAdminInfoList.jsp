@@ -24,7 +24,7 @@
 		<s:if test='#session.quanxian=="2"'>
 			<input type="button" id="todelete" value="删除"
 				onclick="javascript:toDelete();" />&nbsp;<input type="button"
-				id="toAdd" value="增加" onclick="javascript:addAdmin();" />
+				id="toAdd" value="增加" onclick="javascript:addAdmin();" class="btn btn-primary"/>
 		</s:if>
 		<div>
 			<table>

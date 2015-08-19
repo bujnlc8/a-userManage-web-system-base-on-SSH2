@@ -8,5 +8,21 @@
 			method="getRoleInfoList">
 			<result>/jsp/roleInfoList.jsp</result>
 		</action>
+		<action name="addRole" class="com.haihuiling.action.UserRoleAction"
+			method="addRole">
+			<result type="redirectAction">getRoleInfoList</result>
+		</action>
+		<action name="deleteRole" class="com.haihuiling.action.UserRoleAction"
+			method="deleteRole">
+			<result type="redirectAction">getRoleInfoList</result>
+		</action>
+		<action name="roleEdit" class="com.haihuiling.action.UserRoleAction"
+			method="roleEdit">
+			<result type="redirectAction">getRoleInfoList</result>
+		</action>
+		<action name="goRoleEdit" class="com.haihuiling.action.UserRoleAction"
+			method="goRoleEdit">
+			<result>/jsp/roleEdit.jsp</result>
+		</action>
 	</package>
 </struts>

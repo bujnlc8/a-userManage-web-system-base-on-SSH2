@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script type="text/javascript" src="resource/jquery/jquery-1.8.3.min.js"></script>
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript" src="resource/layer/layer.js"></script>
 </head>
 <body>
 	<div style="float:right">
@@ -18,16 +19,16 @@
 			&nbsp;&nbsp;<a href="admin/userAdminLogout.do">注销</a>
 		</s:if>
 	</div>
-	<div id="selectOption">
+	<div id="selectOption" align="center">
 		<form id="userInfoList" name="userInfoList"
 			action="${ctx}user/userInfoList.do" method="post">
-			<table align="center" width="40%">
+			<table class="table table-striped">
 				<tr>
 					<td>用户名：</td>
-					<td align="center"><input id="qqName" name="qqName"
-						type="text"></td>
+					<td align="center" height="30px"><input id="qqName" name="qqName"
+						type="text" class="form-control"></td>
 					<td>年龄:</td>
-					<td align="center"><input name="qqAge" id="qqAge" type="text">
+					<td align="center"><input name="qqAge" id="qqAge" type="text" class="form-control">
 					</td>
 				</tr>
 				<tr>
@@ -51,18 +52,17 @@
 					<td align="center"><input name="qqAddress" id="qqAddress"
 						type="text"></td>
 				</tr>
-				<tr>
-					<td colspan="2" align="center"><input type="button"
-						id="btn_submit" onclick="javascript:toSearch();" value="查询" /></td>
-					<td colspan="2" align="center"><input type="button"
-						id="bbtn_reset" onclick="javascript:toReset()" value="重置" /></td>
-				</tr>
-			</table>
+				</table>
+				<div align="center"><input type="button"
+						id="btn_submit" onclick="javascript:toSearch();" value="查询" class="btn btn-primary"  style="margin-top:15px;"/></td>
+					<input type="button"
+						id="bbtn_reset" onclick="javascript:toReset()" value="重置" class="btn btn-primary" style="margin-top:15px;margin-left:200px"/></td>
+				</div>
 		</form>
 	</div>
 	<div id="userInfo">
 		<form id="infoList" name="infoList" method="post">
-			<table width="70%" align="center" border="1">
+			<table width="70%" align="center"  class="table  table-hover">
 				<tr>
 					<th width="6%"><input type="checkbox" class="user_cb"
 						id="checkAll" onclick="javascript:selectAll();" title="全部选中">
@@ -100,18 +100,18 @@
 							&nbsp;<a
 							href="javascript:goUserInfoEdit('<s:property value="object[#stat.index][0]"/>')"><font size="2">编辑</font></a>
 							&nbsp;<a
-							href="javascript:goUserRoleEdit('<s:property value="object[#stat.index][0]"/>')"><font size="2">角色管理</font></a>
+							href="javascript:goUserRoleEdit('<s:property value="object[#stat.index][0]"/>')"><font size="2">角色</font></a>
 						</td>
 					</tr>
 				</s:iterator>
 			</table>
 			<div align="center">
 				<input type="button" id="todelete" value="删除"
-					style="width:100px;height:30px;margin-top:15px;"
-					onclick="javascript:toDelete();" /><input type="button" id="add"
+					style="margin-top:15px;"
+					onclick="javascript:toDelete();" class="btn btn-primary"/><input type="button" id="add"
 					value="增加"
-					style="width:100px;height:30px;margin-top:15px;margin-left:50px"
-					onclick="toAdd()">
+					style="margin-top:15px;margin-left:200px"
+					onclick="toAdd()" class="btn btn-primary"/>
 			</div>
 			<input type="hidden" name="qqId" />
 		</form>
@@ -159,7 +159,7 @@
 		});		
 		function toDelete() {
 			if ($(":checked").length == 0) {
-				alert("please select one at least!");
+				layer.alert("please select one at least!");
 			} else {
 				if (confirm("确定删除所选吗？")) {
 					var frm = document.infoList;
@@ -169,7 +169,15 @@
 			}
 		}
 		function toAdd() {
-			window.location = "user/goAddUserInfo.do";
+			//window.location = "user/goAddUserInfo.do";
+			//window.open ('jsp/userInfoAdd.jsp','newwindow','height=300,width=450,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+			layer.open({
+				type : 2,
+				content : "user/goAddUserInfo.do",
+				scrollbar : false,
+				area : [ '500px', '300px' ],
+				offset : [ '100px', '400px' ],
+			});
 		}
 		function goUserInfoEdit(id)
 		{

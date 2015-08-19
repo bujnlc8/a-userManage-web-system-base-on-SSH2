@@ -58,7 +58,7 @@
 						value="<s:property value='userObject[7]'/>" /></td>
 				</tr>
 			</table>
-			<input type="button" id="back" onclick="goback();" value="返回" />
+			<input type="button" id="back" onclick="goback();" value="返回" class="btn btn-primary"/>
 		</form>
 	</div>
 	<script type="text/javascript">

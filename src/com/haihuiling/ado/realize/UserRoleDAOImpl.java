@@ -59,7 +59,7 @@ public class UserRoleDAOImpl implements IUserRoleDAO {
 	 */
 	public List<Object> getRoleList() {
 		List<Object> userRoleList;
-		String sql = "select role_id,role_name,role_description,role_create_time,role_state from user_role";
+		String sql = "select role_id,role_name,role_description,role_create_time from user_role";
 		Query query = getSession().createSQLQuery(sql);
 		userRoleList = query.list();	
 		return userRoleList;
